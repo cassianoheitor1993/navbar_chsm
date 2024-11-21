@@ -59,7 +59,7 @@ Navbar.propTypes = {
     })
   ),
   showNotifications: PropTypes.bool,
-  notificationPlaceholder: PropTypes.node, // Placeholder for the notification icon
+  notificationPlaceholder: PropTypes.node,
   customStyles: PropTypes.shape({
     navbar: PropTypes.object,
     title: PropTypes.object,
