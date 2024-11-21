@@ -8,10 +8,12 @@ To install the dependencies required for the `Navbar` component, run the followi
 
 ```sh
 npm install react react-router-dom dompurify bootstrap
+```
 
 Usage
 Import the Navbar component and include it in your application:
 
+```sh
 import React from 'react';
 import Navbar from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -43,6 +45,7 @@ const App = () => {
 };
 
 export default App;
+```
 
 Props
 The Navbar component accepts the following props:
@@ -54,7 +57,7 @@ websocketUrl (string): The WebSocket URL for receiving notifications. Default is
 customStyles (object): Custom styles for the navbar and title.
 
 Example
-
+```sh
 const links = [
   { path: '/', label: 'Home' },
   { path: '/about', label: 'About' },
@@ -71,6 +74,7 @@ const links = [
     title: { color: '#fff' },
   }}
 />
+```
 
 Dependencies
 react
