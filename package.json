@@ -1,7 +1,7 @@
 {
   "name": "navbar_chsm",
-  "version": "1.0.0",
-  "description": "A customizable React Navbar component with support for Bootstrap, routing, and WebSocket notifications.",
+  "version": "1.1.0", 
+  "description": "A customizable React Navbar component with support for Bootstrap, routing, and WebSocket notifications. Includes support for dynamic notifications via WebSocket or other backends.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,9 @@
     "navbar",
     "bootstrap",
     "component",
-    "ui"
+    "ui",
+    "notifications",
+    "real-time"
   ],
   "author": "Your Name <your.email@example.com>",
   "license": "ISC",
