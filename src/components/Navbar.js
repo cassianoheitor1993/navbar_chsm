@@ -11,7 +11,10 @@ const Navbar = ({
   links = [],
   showNotifications = true,
   websocketUrl = null,
-  customStyles = {},
+  customStyles = {
+    navbar: { backgroundColor: '#333' },
+    title: { color: '#fff' },
+  },
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -26,9 +29,11 @@ const Navbar = ({
   };
 
   const handleDeletedArticle = useCallback((data) => {
-    const articleIds = Array.isArray(data.article_id) ? data.article_id.map(String) : [data.article_id?.toString()];
+    const articleIds = Array.isArray(data.article_id)
+      ? data.article_id.map(String)
+      : [data.article_id?.toString()];
     setNotifications((prev) => {
-      const updated = prev.filter((n) => !articleIds.includes(n.article_data.id?.toString()));
+      const updated = prev.filter((n) => !articleIds.includes(n.article_data?.id?.toString()));
       localStorage.setItem('notifications', JSON.stringify(updated));
       return updated;
     });
@@ -39,19 +44,28 @@ const Navbar = ({
       const ws = new WebSocket(websocketUrl);
 
       ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.message === 'Article deleted') {
-          handleDeletedArticle(data);
-        } else if (data.message === 'New article') {
-          setNotifications((prev) => {
-            const newNotifications = [...prev, data];
-            localStorage.setItem('notifications', JSON.stringify(newNotifications));
-            return newNotifications;
-          });
+        try {
+          const data = JSON.parse(event.data);
+          if (data.message === 'Article deleted') {
+            handleDeletedArticle(data);
+          } else if (data.message === 'New article') {
+            setNotifications((prev) => {
+              const newNotifications = [...prev, data];
+              localStorage.setItem('notifications', JSON.stringify(newNotifications));
+              return newNotifications;
+            });
+          }
+        } catch (error) {
+          console.error('Error parsing WebSocket message:', error);
         }
       };
 
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+
       ws.onclose = () => console.log('WebSocket closed');
+
       return () => ws.close();
     }
   }, [websocketUrl, handleDeletedArticle]);
@@ -77,7 +91,7 @@ const Navbar = ({
         </button>
         <div className={`nav-links-container ${isOpen ? 'open' : ''}`}>
           <ul className="nav-links">
-            {links.map(({ path, label }, idx) => (
+            {links?.map(({ path, label }, idx) => (
               <li key={idx} className="nav-item">
                 <NavLink to={path} className={({ isActive }) => (isActive ? 'active' : '')}>
                   {label}
@@ -102,7 +116,7 @@ const Navbar = ({
                       notifications.map((notification, idx) => (
                         <li key={idx} className="notification-item">
                           <div className="notification-content">
-                            <h6>{notification.article_data.title}</h6>
+                            <h6>{notification.article_data?.title || 'Untitled'}</h6>
                             <button
                               className="dismiss-button"
                               onClick={() => dismissNotification(idx)}
@@ -136,7 +150,10 @@ Navbar.propTypes = {
   ),
   showNotifications: PropTypes.bool,
   websocketUrl: PropTypes.string,
-  customStyles: PropTypes.object,
+  customStyles: PropTypes.shape({
+    navbar: PropTypes.object,
+    title: PropTypes.object,
+  }),
 };
 
 export default Navbar;

@@ -10,6 +10,11 @@ To install the dependencies required for the `Navbar` component, run the followi
 npm install react react-router-dom dompurify bootstrap
 ```
 
+To install the navbar_chsm component, run the following command:
+```bash
+npm install navbar_chsm
+```
+
 ## Usage
 Import the Navbar component and include it in your application:
 

@@ -1,38 +1,32 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import postcss from 'rollup-plugin-postcss';
-import { terser } from 'rollup-plugin-terser';
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
 export default {
-  input: 'src/index.js', // Entry point
+  input: 'src/index.js',
   output: [
     {
-      file: 'dist/index.cjs.js', // CommonJS
+      file: 'dist/index.cjs.js',
       format: 'cjs',
-      exports: 'named',
     },
     {
-      file: 'dist/index.esm.js', // ES Modules
+      file: 'dist/index.esm.js',
       format: 'esm',
-      exports: 'named',
     },
   ],
-  plugins: [
-    peerDepsExternal(), // Automatically mark peer dependencies as external
-    resolve(), // Resolve imports
-    commonjs(), // Convert CommonJS to ES modules
-    babel({
-      exclude: 'node_modules/**',
-      babelHelpers: 'bundled',
-      presets: ['@babel/preset-env', '@babel/preset-react'],
-    }),
-    postcss({
-      extract: true, // Extract CSS into separate file
-      minimize: true, // Minify CSS
-    }),
-    terser(), // Minify JavaScript
+  external: [
+    'react',
+    'react-router-dom',
+    'prop-types',
+    'dompurify',
+    'bootstrap-icons/font/bootstrap-icons.css',
+    'bootstrap/dist/css/bootstrap.min.css'
   ],
-  external: ['react', 'react-dom'], // Ensure React and React-DOM are not bundled
+  plugins: [
+    postcss(),
+    babel({
+      babelHelpers: 'bundled',
+      presets: ['@babel/preset-react'],
+      extensions: ['.js', '.jsx'],
+    }),
+  ],
 };
