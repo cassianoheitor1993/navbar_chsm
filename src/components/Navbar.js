@@ -30,7 +30,7 @@ const Navbar = ({
           <i className={`bi bi-${isOpen ? 'x' : 'list'}`}></i>
         </button>
         <div className={`nav-links-container ${isOpen ? 'open' : ''}`}>
-          <ul className="nav-links ${isOpen ? 'open' : ''}">
+          <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
             {links?.map(({ path, label }, idx) => (
               <li key={idx} className="nav-item">
                 <NavLink to={path} className={({ isActive }) => (isActive ? 'active' : '')}>
